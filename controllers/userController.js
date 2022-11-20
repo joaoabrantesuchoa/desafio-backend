@@ -78,6 +78,9 @@ exports.delete = async (req, res) => {
   if (!CPF) return res.status(400).send({ error: "Dados insuficientes" });
 
   try {
+    const user = await Users.findOne({ CPF });
+    if (user === null) return res.status(404).send({ error: "Usuário não registrado" });
+
     if (await Users.deleteOne({ CPF })) {
       return res.status(200).send("Usuário deletado");
     }
