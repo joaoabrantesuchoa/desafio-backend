@@ -11,8 +11,14 @@ const createUserToken = (CPF) => {
 exports.getAll = async (req, res) => {
   try {
     const users = await Users.find({});
-    return res.send(users);
+    var CPFAndName = [];
+    for (let i = 0; i < users.length; i++) {
+      var CPFName = [{ CPF:  users[i].CPF, Nome: users[i].nome}];
+      CPFAndName.push(CPFName);
+    }
+    return res.send(CPFAndName);
   } catch (err) {
+    console.log(err);
     return res.status(500).send({ error: "Erro na consulta de usuários!" });
   }
 };
